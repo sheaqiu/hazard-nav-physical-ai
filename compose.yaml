@@ -1,0 +1,20 @@
+services:
+  hazard-nav:
+    build:
+      context: .
+    container_name: hazard-nav
+    ports:
+      - "6080:80"
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openrouter/free}
+      OPENROUTER_TRANSCRIBE_MODEL: ${OPENROUTER_TRANSCRIBE_MODEL:-openai/whisper-large-v3-turbo}
+      OPENROUTER_HTTP_REFERER: ${OPENROUTER_HTTP_REFERER:-http://localhost:6080}
+      OPENROUTER_APP_NAME: ${OPENROUTER_APP_NAME:-HazardNav}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-6-astra}
+      OPENAI_TRANSCRIBE_MODEL: ${OPENAI_TRANSCRIBE_MODEL:-gpt-transcribe}
+    working_dir: /opt/hazard_nav_ws
+    shm_size: "2gb"
+

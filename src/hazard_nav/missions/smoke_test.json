@@ -1,0 +1,26 @@
+{
+  "mission_name": "closed_loop_smoke_test",
+  "intent": "验证里程计闭环直行、航向闭环转向和停止指令",
+  "actions": [
+    {
+      "type": "move_distance",
+      "description": "向前行驶零点八米",
+      "distance_m": 0.8,
+      "speed_mps": 0.2,
+      "max_duration_s": 10.0
+    },
+    {
+      "type": "turn",
+      "description": "向左转四十五度",
+      "angle_deg": 45.0,
+      "direction": "left",
+      "angular_speed_rps": 0.5,
+      "max_duration_s": 8.0
+    },
+    {
+      "type": "stop",
+      "description": "停止并报告任务完成",
+      "max_duration_s": 2.0
+    }
+  ]
+}

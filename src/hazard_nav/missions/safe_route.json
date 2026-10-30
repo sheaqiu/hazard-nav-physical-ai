@@ -1,0 +1,75 @@
+{
+  "mission_name": "damaged_corridor_to_safe_zone",
+  "intent": "从蓝色起始区穿越受损走廊并抵达绿色安全集合点",
+  "actions": [
+    {
+      "type": "move_distance",
+      "description": "沿第一段走廊向东前进",
+      "distance_m": 5.45,
+      "speed_mps": 0.22,
+      "max_duration_s": 40.0
+    },
+    {
+      "type": "turn",
+      "description": "向左转入纵向通道",
+      "angle_deg": 90.0,
+      "direction": "left",
+      "angular_speed_rps": 0.55,
+      "max_duration_s": 10.0
+    },
+    {
+      "type": "move_distance",
+      "description": "穿过纵向通道到达中央岔路",
+      "distance_m": 5.0,
+      "speed_mps": 0.18,
+      "max_duration_s": 45.0
+    },
+    {
+      "type": "turn",
+      "description": "向右转，避开北侧火灾区域",
+      "angle_deg": 90.0,
+      "direction": "right",
+      "angular_speed_rps": 0.5,
+      "max_duration_s": 10.0
+    },
+    {
+      "type": "follow_wall",
+      "description": "贴北侧墙壁通过南侧坠落物区域",
+      "distance_m": 3.5,
+      "clearance_m": 0.45,
+      "side": "left",
+      "speed_mps": 0.16,
+      "max_duration_s": 40.0
+    },
+    {
+      "type": "move_distance",
+      "description": "穿过开口到达安全通道中心",
+      "distance_m": 1.6,
+      "speed_mps": 0.14,
+      "max_duration_s": 20.0
+    },
+    {
+      "type": "turn",
+      "description": "向左转入安全通道",
+      "angle_deg": 90.0,
+      "direction": "left",
+      "angular_speed_rps": 0.5,
+      "max_duration_s": 10.0
+    },
+    {
+      "type": "follow_wall",
+      "description": "沿左侧墙壁前往安全集合点",
+      "distance_m": 4.05,
+      "clearance_m": 0.82,
+      "side": "left",
+      "speed_mps": 0.16,
+      "max_duration_s": 50.0
+    },
+    {
+      "type": "stop",
+      "description": "在绿色安全区域内停止",
+      "max_duration_s": 2.0
+    }
+  ]
+}
+

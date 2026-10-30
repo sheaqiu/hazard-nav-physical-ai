@@ -1,0 +1,37 @@
+{
+  "mission_name": "hazard_corridor_to_safe_zone_segment",
+  "intent": "从横向受损走廊入口绕过坠落物并进入绿色安全区",
+  "actions": [
+    {
+      "type": "follow_wall",
+      "description": "沿南侧墙壁绕过坠落物",
+      "distance_m": 4.7,
+      "clearance_m": 0.72,
+      "side": "right",
+      "speed_mps": 0.16,
+      "max_duration_s": 120.0
+    },
+    {
+      "type": "turn",
+      "description": "向左转入安全通道",
+      "angle_deg": 90.0,
+      "direction": "left",
+      "angular_speed_rps": 0.5,
+      "max_duration_s": 10.0
+    },
+    {
+      "type": "follow_wall",
+      "description": "沿左侧墙壁前往绿色安全区",
+      "distance_m": 4.05,
+      "clearance_m": 0.82,
+      "side": "left",
+      "speed_mps": 0.16,
+      "max_duration_s": 50.0
+    },
+    {
+      "type": "stop",
+      "description": "在绿色安全区停止",
+      "max_duration_s": 2.0
+    }
+  ]
+}

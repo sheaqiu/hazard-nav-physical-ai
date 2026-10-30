@@ -1,0 +1,28 @@
+{
+  "mission_name": "safe_vertical_corridor_segment",
+  "intent": "从安全通道中心向北进入绿色集合点",
+  "actions": [
+    {
+      "type": "turn",
+      "description": "向左转入安全通道",
+      "angle_deg": 90.0,
+      "direction": "left",
+      "angular_speed_rps": 0.5,
+      "max_duration_s": 10.0
+    },
+    {
+      "type": "follow_wall",
+      "description": "沿左侧墙壁前往绿色安全区",
+      "distance_m": 4.05,
+      "clearance_m": 0.82,
+      "side": "left",
+      "speed_mps": 0.16,
+      "max_duration_s": 50.0
+    },
+    {
+      "type": "stop",
+      "description": "在绿色安全区停止",
+      "max_duration_s": 2.0
+    }
+  ]
+}
