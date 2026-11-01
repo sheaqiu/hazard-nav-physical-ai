@@ -39,8 +39,11 @@ closed-loop system with an explicit command vocabulary.
 - `follow_wall`: LiDAR wall-distance correction plus corridor-heading hold, with front-obstacle turning.
 - `stop`: explicit zero velocity and mission completion.
 
-Each moving action has a timeout. The executor stops immediately when forward
-clearance falls below the emergency threshold.
+Each moving action has a timeout. Before publication, the language planner
+raises unrealistically short model-proposed timeouts using distance, speed and
+acceleration margin. It also bounds straight, turning and wall-following speeds
+for a faster but stable demonstration. The executor stops immediately when
+forward clearance falls below the emergency threshold.
 
 ## Development boundary
 

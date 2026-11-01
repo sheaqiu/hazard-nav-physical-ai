@@ -79,3 +79,14 @@ Gazebo yaw      = 1.557190 rad
 ```
 
 The final rover centre was approximately `0.228 m` from the green safe-zone centre, safely inside its `0.78 m` radius. The API key was loaded only from the gitignored local `.env` and was not printed in the test output.
+
+## Final demonstration configuration
+
+For the final recording, the planner model was pinned to
+`google/gemini-2.5-flash-lite` instead of the variable `openrouter/free` router.
+A trial exposed a model-generated timeout equal to the ideal travel time, which
+left no allowance for acceleration or steering correction. The planner now
+normalizes every proposed timeout before publication and applies bounded speed
+profiles: faster straight motion, faster turning, and a conservative cap for
+wall following. The independent executor still enforces the emergency-stop
+distance and the 120-second hard maximum.

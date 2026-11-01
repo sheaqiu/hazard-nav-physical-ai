@@ -96,7 +96,7 @@ ros2 run hazard_nav mission_file
 
 ### テキストによる自然言語操作
 
-既定値は `OPENROUTER_API_KEY` と、モデル料金が 0 の `openrouter/free` です。無料リクエスには頻度制限と日次制限があります。`.env` を変更した場合は、`docker compose up -d --force-recreate` でコンテナーに再読み込みさせます。
+既定値は `OPENROUTER_API_KEY` と、低コストで構造化出力に対応する `google/gemini-2.5-flash-lite` です。プランナーはモデルが提案した速度とタイムアウトを実行前に正規化し、直進には加減速の余裕、壁沿い走行には安定性の上限を与えます。`.env` を変更した場合は、`docker compose up -d --force-recreate` でコンテナーに再読み込みさせます。
 
 ```bash
 ros2 run hazard_nav language_planner
@@ -249,7 +249,7 @@ This verifies straight motion, left and right turns, wall following, and entry i
 
 ### Text-based natural-language control
 
-The default configuration uses `OPENROUTER_API_KEY` and the zero-model-cost `openrouter/free` router. Free requests have rate and daily limits. After changing `.env`, run `docker compose up -d --force-recreate` so that the container reloads it.
+The default configuration uses `OPENROUTER_API_KEY` and the low-cost `google/gemini-2.5-flash-lite` model with structured-output support. Before execution, the planner normalizes model-proposed speeds and timeouts, leaving acceleration margin for straight motion and applying a stability cap to wall following. After changing `.env`, run `docker compose up -d --force-recreate` so that the container reloads it.
 
 ```bash
 ros2 run hazard_nav language_planner
@@ -402,7 +402,7 @@ ros2 run hazard_nav mission_file
 
 ### 文字自然语言控制
 
-默认配置使用 `OPENROUTER_API_KEY` 和模型费用为 0 的 `openrouter/free`。免费请求有频率和每日额度限制。修改 `.env` 后，执行 `docker compose up -d --force-recreate` 让容器重新读取配置。
+默认配置使用 `OPENROUTER_API_KEY` 和支持结构化输出的低成本模型 `google/gemini-2.5-flash-lite`。执行前，规划器会自动调整模型给出的速度和超时时间，为直线行驶保留加减速余量，并限制沿墙速度以保持稳定。修改 `.env` 后，执行 `docker compose up -d --force-recreate` 让容器重新读取配置。
 
 ```bash
 ros2 run hazard_nav language_planner

@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Literal
+import math
+from typing import Any, Literal
 
 import rclpy
 from rclpy.node import Node
@@ -93,6 +94,10 @@ invent map locations. Use only these actions:
 - follow_wall: requires side (left or right), clearance_m, distance_m, speed_mps.
 - stop: stops the robot; set max_duration_s to 2.
 
+Timeouts are hard safety limits, not ideal travel times. They must include
+margin for acceleration, steering correction, and slow simulation. Never use
+distance divided by speed as the timeout without additional margin.
+
 Preserve the exact order and measurable conditions in the operator's request.
 Never generate source code, shell commands, topic names, or unsupported actions.
 Never infer a left/right choice that the operator did not provide. If a command
@@ -100,6 +105,47 @@ contains an impossible capability, return a single stop action and explain the
 unsupported request in intent. Keep every action within the documented numeric
 limits. Add a final stop action unless the mission already ends with stop.
 """.strip()
+
+
+def add_execution_timeout_margin(plan: PlannedMission) -> dict[str, Any]:
+    """Guarantee that model-proposed timeouts are physically achievable."""
+    payload = plan.model_dump()
+    for action in payload["actions"]:
+        action_type = action["type"]
+
+        if action_type == "stop":
+            action["max_duration_s"] = 2.0
+            continue
+
+        if action_type == "move_distance":
+            speed = min(0.32, max(float(action["speed_mps"]), 0.30))
+            action["speed_mps"] = speed
+            distance = float(action["distance_m"])
+            minimum = (distance / speed) * 2.0 + 10.0
+        elif action_type == "follow_wall":
+            speed = min(0.26, max(float(action["speed_mps"]), 0.22))
+            action["speed_mps"] = speed
+            distance = float(action["distance_m"])
+            minimum = (distance / speed) * 2.0 + 10.0
+        elif action_type == "turn":
+            angular_speed = min(
+                0.80, max(float(action["angular_speed_rps"]), 0.65)
+            )
+            action["angular_speed_rps"] = angular_speed
+            angle_rad = math.radians(float(action["angle_deg"]))
+            minimum = (angle_rad / angular_speed) * 2.0 + 6.0
+        elif action_type in {"move_until_wall", "move_until_junction"}:
+            action["speed_mps"] = min(
+                0.28, max(float(action["speed_mps"]), 0.22)
+            )
+            minimum = 60.0
+        else:
+            minimum = 30.0
+
+        proposed = float(action.get("max_duration_s") or 0.0)
+        action["max_duration_s"] = round(min(120.0, max(proposed, minimum)), 1)
+
+    return payload
 
 
 class LanguagePlannerNode(Node):
@@ -139,7 +185,7 @@ class LanguagePlannerNode(Node):
             parsed = response.choices[0].message.parsed
             if parsed is None:
                 raise RuntimeError("model returned no structured mission")
-            plan = MissionPlan.from_dict(parsed.model_dump())
+            plan = MissionPlan.from_dict(add_execution_timeout_margin(parsed))
         except MissionValidationError as exc:
             self.get_logger().error(f"model produced an invalid mission: {exc}")
             self._publish_status(f"invalid_mission: {exc}")

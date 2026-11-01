@@ -8,7 +8,7 @@ services:
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
       OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
-      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openrouter/free}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-google/gemini-2.5-flash-lite}
       OPENROUTER_TRANSCRIBE_MODEL: ${OPENROUTER_TRANSCRIBE_MODEL:-openai/whisper-large-v3-turbo}
       OPENROUTER_HTTP_REFERER: ${OPENROUTER_HTTP_REFERER:-http://localhost:6080}
       OPENROUTER_APP_NAME: ${OPENROUTER_APP_NAME:-HazardNav}
